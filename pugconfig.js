@@ -14,7 +14,7 @@ const pug = require('pug');
 const websiteDir = '.';
 const distDir = './_site';
 
-const entries = ['index.pug', 'docs/docs.pug', 'docs/integration-guide.pug'];
+const entries = ['index.pug', 'docs/docs.pug'];
 
 const assets = [
     [websiteDir, distDir, ['css/*.css', 'js/*.js', 'img/*.{svg,png}', 'fonts/*', '*.{svg,png,ico,xml,json}'], ["package.json", "package-lock.json"], false],
