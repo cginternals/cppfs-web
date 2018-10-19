@@ -2,7 +2,7 @@
     "name": "cppfs-website",
     "private": true,
     "version": "0.1.0",
-    "description": "Website for cppfs.org",
+    "description": "Website for cppfilesystem.org",
     "author": "CG Internals",
     "homepage": "https://cginternals.com",
     "bugs": {

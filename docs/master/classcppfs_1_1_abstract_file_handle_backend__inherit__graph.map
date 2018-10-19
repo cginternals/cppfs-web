@@ -1,0 +1,4 @@
+<map id="cppfs::AbstractFileHandleBackend" name="cppfs::AbstractFileHandleBackend">
+<area shape="rect" id="node2" href="$classcppfs_1_1_local_file_handle.html" title="File handle for the local file system. " alt="" coords="13,95,168,121"/>
+<area shape="rect" id="node3" href="$classcppfs_1_1_ssh_file_handle.html" title="File handle for a remote file system accessed by SSH. " alt="" coords="193,95,338,121"/>
+</map>

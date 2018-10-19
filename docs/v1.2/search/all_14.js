@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['_7eabstractfilehandlebackend',['~AbstractFileHandleBackend',['../classcppfs_1_1_abstract_file_handle_backend.html#a83c05c3967e6d21f39d36c55e0c8b840',1,'cppfs::AbstractFileHandleBackend']]],
+  ['_7eabstractfileiteratorbackend',['~AbstractFileIteratorBackend',['../classcppfs_1_1_abstract_file_iterator_backend.html#ae5f7d075ffc9891e517eb01a34864035',1,'cppfs::AbstractFileIteratorBackend']]],
+  ['_7eabstractfilesystem',['~AbstractFileSystem',['../classcppfs_1_1_abstract_file_system.html#a87a10a8ca5bca6dd13395ebf7aae241b',1,'cppfs::AbstractFileSystem']]],
+  ['_7echange',['~Change',['../classcppfs_1_1_change.html#adce2d1b86d425dd9d82ac30f10c23390',1,'cppfs::Change']]],
+  ['_7ediff',['~Diff',['../classcppfs_1_1_diff.html#a85b2e048a5a715e565c8fcaae0d9f221',1,'cppfs::Diff']]],
+  ['_7efilehandle',['~FileHandle',['../classcppfs_1_1_file_handle.html#a4206435c6bcc608457049efc5f20efce',1,'cppfs::FileHandle']]],
+  ['_7efileiterator',['~FileIterator',['../classcppfs_1_1_file_iterator.html#a31b385d722b9acb2193b3b1dc7a2dc77',1,'cppfs::FileIterator']]],
+  ['_7efilepath',['~FilePath',['../classcppfs_1_1_file_path.html#a57cbd93f4261338a7ccf12413d04e47b',1,'cppfs::FilePath']]],
+  ['_7efilevisitor',['~FileVisitor',['../classcppfs_1_1_file_visitor.html#afb5c7f3db47c9f98a375fcfc4da44429',1,'cppfs::FileVisitor']]],
+  ['_7efunctionalfilevisitor',['~FunctionalFileVisitor',['../classcppfs_1_1_functional_file_visitor.html#a2426251d013cd0697aac0e54cec8781a',1,'cppfs::FunctionalFileVisitor']]],
+  ['_7einputstream',['~InputStream',['../classcppfs_1_1_input_stream.html#a39af8119ad2f861b558bd40ca603ea95',1,'cppfs::InputStream']]],
+  ['_7elocalfilehandle',['~LocalFileHandle',['../classcppfs_1_1_local_file_handle.html#a98d2497a4e8fd725a2120daa398b2558',1,'cppfs::LocalFileHandle::~LocalFileHandle()'],['../classcppfs_1_1_local_file_handle.html#a98d2497a4e8fd725a2120daa398b2558',1,'cppfs::LocalFileHandle::~LocalFileHandle()']]],
+  ['_7elocalfileiterator',['~LocalFileIterator',['../classcppfs_1_1_local_file_iterator.html#a39da6a555efd159fd6a64941589ccc5c',1,'cppfs::LocalFileIterator::~LocalFileIterator()'],['../classcppfs_1_1_local_file_iterator.html#a39da6a555efd159fd6a64941589ccc5c',1,'cppfs::LocalFileIterator::~LocalFileIterator()']]],
+  ['_7elocalfilesystem',['~LocalFileSystem',['../classcppfs_1_1_local_file_system.html#aaf9dfd3185dbeddd18f1a3c9dc1f1ffd',1,'cppfs::LocalFileSystem::~LocalFileSystem()'],['../classcppfs_1_1_local_file_system.html#aaf9dfd3185dbeddd18f1a3c9dc1f1ffd',1,'cppfs::LocalFileSystem::~LocalFileSystem()']]],
+  ['_7elogincredentials',['~LoginCredentials',['../classcppfs_1_1_login_credentials.html#a762f8986cd4dd20946059d5124a9cdf6',1,'cppfs::LoginCredentials']]],
+  ['_7eoutputstream',['~OutputStream',['../classcppfs_1_1_output_stream.html#a975e6c18ce3047deda320fa9c28b1a73',1,'cppfs::OutputStream']]],
+  ['_7esshfilehandle',['~SshFileHandle',['../classcppfs_1_1_ssh_file_handle.html#a4e0b0f7f8dd5603af118866444ef26ff',1,'cppfs::SshFileHandle']]],
+  ['_7esshfileiterator',['~SshFileIterator',['../classcppfs_1_1_ssh_file_iterator.html#af34a472eb18837d5a2300653e54967b1',1,'cppfs::SshFileIterator']]],
+  ['_7esshfilesystem',['~SshFileSystem',['../classcppfs_1_1_ssh_file_system.html#a1eeb506739080794f62a6ad8ddba2963',1,'cppfs::SshFileSystem']]],
+  ['_7esshinputstreambuffer',['~SshInputStreamBuffer',['../classcppfs_1_1_ssh_input_stream_buffer.html#a7ec6833f19094ca2fed71f7203b3cda0',1,'cppfs::SshInputStreamBuffer']]],
+  ['_7esshoutputstreambuffer',['~SshOutputStreamBuffer',['../classcppfs_1_1_ssh_output_stream_buffer.html#a82a52c64a29c2e68c55fe07778d5742b',1,'cppfs::SshOutputStreamBuffer']]],
+  ['_7etree',['~Tree',['../classcppfs_1_1_tree.html#a3f217d11ee992bfeb3bd97d860ca4dd1',1,'cppfs::Tree']]],
+  ['_7eurl',['~Url',['../classcppfs_1_1_url.html#ab40feb4a63cf40944793294cc0f06cce',1,'cppfs::Url']]]
+];

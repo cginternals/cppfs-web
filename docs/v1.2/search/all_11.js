@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['underflow',['underflow',['../classcppfs_1_1_ssh_input_stream_buffer.html#aea6b42ca8e09ec0ff94c1663e1fdcb79',1,'cppfs::SshInputStreamBuffer']]],
+  ['units_2eh',['units.h',['../units_8h.html',1,'']]],
+  ['updatefileinfo',['updateFileInfo',['../classcppfs_1_1_abstract_file_handle_backend.html#aa1510b34fa8f2cc2d429df52f0e90c54',1,'cppfs::AbstractFileHandleBackend::updateFileInfo()'],['../classcppfs_1_1_file_handle.html#a372de8b3f25af16a639e404724308f75',1,'cppfs::FileHandle::updateFileInfo()'],['../classcppfs_1_1_local_file_handle.html#af35f7c3069613a921ba05bce2f03ce20',1,'cppfs::LocalFileHandle::updateFileInfo()'],['../classcppfs_1_1_ssh_file_handle.html#a99527ab1a0eb4caa233fd9f5203ddc83',1,'cppfs::SshFileHandle::updateFileInfo()'],['../classcppfs_1_1_local_file_handle.html#af35f7c3069613a921ba05bce2f03ce20',1,'cppfs::LocalFileHandle::updateFileInfo()']]],
+  ['url',['Url',['../classcppfs_1_1_url.html',1,'cppfs']]],
+  ['url',['Url',['../classcppfs_1_1_url.html#a4c80112c7c2a214e799d8b00c0fb3e1c',1,'cppfs::Url::Url()'],['../classcppfs_1_1_url.html#ae9d158792b600a5017fc87c99318aaba',1,'cppfs::Url::Url(const Url &amp;url)'],['../classcppfs_1_1_url.html#a45b26c67d6b725cc42308fe067c2f34d',1,'cppfs::Url::Url(Url &amp;&amp;url)'],['../classcppfs_1_1_url.html#ab803a3f3cfca38272a67a832b938efd6',1,'cppfs::Url::Url(const std::string &amp;url)'],['../classcppfs_1_1_url.html#a9b97f9ceb53ae6788d7be8f4bf929e38',1,'cppfs::Url::Url(std::string &amp;&amp;url)'],['../classcppfs_1_1_url.html#a62cd4e378808f2ca963dc6d374b5e032',1,'cppfs::Url::Url(const char *url)']]],
+  ['url_2eh',['Url.h',['../_url_8h.html',1,'']]],
+  ['userexec',['UserExec',['../namespacecppfs.html#ab784ba16449fd692995317fa79024d27a01ed5056efcb3c4a3cb448724ec8a4cd',1,'cppfs']]],
+  ['userid',['userId',['../classcppfs_1_1_abstract_file_handle_backend.html#a69f93b549114113a5983dc8937dd5bdb',1,'cppfs::AbstractFileHandleBackend::userId()'],['../classcppfs_1_1_file_handle.html#a77ed5e34d37b06d51457f7f26f14d914',1,'cppfs::FileHandle::userId()'],['../classcppfs_1_1_local_file_handle.html#a1631d27239e947b575e12533e959e72e',1,'cppfs::LocalFileHandle::userId()'],['../classcppfs_1_1_ssh_file_handle.html#a700b67c8d790d99fec940fa684bbde75',1,'cppfs::SshFileHandle::userId()'],['../classcppfs_1_1_tree.html#a0d95a520d2c7b09a47cc69ce5b03e461',1,'cppfs::Tree::userId()'],['../classcppfs_1_1_local_file_handle.html#a1631d27239e947b575e12533e959e72e',1,'cppfs::LocalFileHandle::userId()']]],
+  ['username',['username',['../classcppfs_1_1_url.html#ac8e87e92002a6fe3f5d0f0091c103e2e',1,'cppfs::Url']]],
+  ['userread',['UserRead',['../namespacecppfs.html#ab784ba16449fd692995317fa79024d27ad4b3b539a4051f31a9013eb6827aed30',1,'cppfs']]],
+  ['userwrite',['UserWrite',['../namespacecppfs.html#ab784ba16449fd692995317fa79024d27a3a4b6a4e899a3ed6e00999160aefc29d',1,'cppfs']]]
+];
