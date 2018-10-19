@@ -1,0 +1,22 @@
+extends partials/index.pug
+
+
+block vars
+  - var navActive = 0 
+
+block head
+  // link(rel = 'stylesheet' href = 'css/template.css')
+  // script(src = 'js/template.js')
+
+block header
+  section.container
+    header.jumbatron
+      img(src = 'img/cppfs-logo.svg' alt = 'cpplocate logo').mb-2.w-50.d-none.d-md-block
+      img(src = 'img/cppfs-logo.svg' alt = 'cpplocate logo').mb-2.d-block.d-md-none
+      p.lead cppfs is a cross-platform C++ library that provides an object-oriented abstraction for working with files and the file system.
+
+block content
+  section.container
+    div.row
+      div.col
+        include:markdown-it(html plugins=['markdown-it-highlightjs']) README.md
