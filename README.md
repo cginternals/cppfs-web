@@ -1,4 +1,3 @@
-
 *cppfs* can be used not only to access the local file system, but for remote and virtual file systems as well.
 By specializing the virtual backend interface, *cppfs* can be easily extended to support additional
 remote protocols or virtual file systems.
@@ -27,13 +26,13 @@ The following backends are currently implemented:
  * [File trees and diffs](#file-trees-and-diffs)
 
 
-## Build Instructions
+# Build Instructions
 
 Please follow our [CMake project setup guide](https://github.com/cginternals/cmake-init/wiki/Setup-Guide)
 to setup and build *cppfs*.
 
 
-## Basic Examples
+# Basic Examples
 
 Opening files and checking for existence and type:
 
@@ -99,7 +98,7 @@ void lstDir(const std::string & path)
 ```
 
 
-## Features
+# Features
 
 ### Paths and URLs
 
