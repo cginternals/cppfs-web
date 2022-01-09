@@ -1,0 +1,4 @@
+<map id="cppfs::AbstractFileSystem" name="cppfs::AbstractFileSystem">
+<area shape="rect" id="node2" href="$classcppfs_1_1_local_file_system.html" title="Representation of the local file system. " alt="" coords="14,80,171,107"/>
+<area shape="rect" id="node3" href="$classcppfs_1_1_ssh_file_system.html" title="Representation of a remote file system accessed by SSH. " alt="" coords="196,80,344,107"/>
+</map>

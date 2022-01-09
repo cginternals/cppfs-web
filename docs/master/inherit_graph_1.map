@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classcppfs_1_1_abstract_file_iterator_backend.html" title="Interface for iterating on directories. " alt="" coords="5,23,176,65"/>
+<area shape="rect" id="node2" href="$classcppfs_1_1_local_file_iterator.html" title="File iterator for the local file system. " alt="" coords="224,5,379,32"/>
+<area shape="rect" id="node3" href="$classcppfs_1_1_ssh_file_iterator.html" title="File iterator for a remove file system accessed by SSH. " alt="" coords="229,56,374,83"/>
+</map>

@@ -1,0 +1,444 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>cppfs</title><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png"><link rel="stylesheet" href="css/bootstrap-4.0.0.min.css"><link rel="stylesheet" href="css/fonts.css"><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/highlightjs.min.css"><script src="js/jquery-3.2.1.slim.min.js"></script><script src="js/popper-1.12.9.min.js"></script><script src="js/bootstrap-4.0.0.min.js"></script><script src="js/rx-5.5.6.min.js"></script><script src="js/website.js"></script><script src="js/clipboard.min.js"></script><!-- link(rel = 'stylesheet' href = 'css/template.css')--><!-- script(src = 'js/template.js')--></head><body class="bg-light"><nav class="navbar navbar-expand-md navbar-dark bg-dark"><div class="container"><a class="nav-link px-0" href="https://cginternals.com"><span class="d-none d-md-block"><img class="img-fluid mt-0" src="img/cginternals.svg" alt="cginternals logo"></span><span class="d-block d-md-none"><img class="img-fluid mt-0" src="img/navicon.svg" alt="cginternals icon"></span></a><ul class="navbar-nav ml-auto" id="nav"><li class="nav-item active"><a class="nav-link" href="/">CPPFS</a></li><li class="nav-item"><a class="nav-link" href="/docs.html">DOCUMENTATION</a></li><li class="nav-item"><a class="nav-link" href="https://github.com/cginternals/cppfs">GITHUB</a></li></ul></div></nav><section class="container"><header class="jumbatron"><img class="mb-2 w-50 d-none d-md-block" src="img/cppfs-logo.svg" alt="cpplocate logo"><img class="mb-2 d-block d-md-none" src="img/cppfs-logo.svg" alt="cpplocate logo"><p class="lead">cppfs is a cross-platform C++ library that provides an object-oriented abstraction for working with files and the file system.</p></header></section><section class="container"><div class="row"><div class="col"><p><em>cppfs</em> can be used not only to access the local file system, but for remote and virtual file systems as well.
+By specializing the virtual backend interface, <em>cppfs</em> can be easily extended to support additional
+remote protocols or virtual file systems.
+The following backends are currently implemented:</p>
+<ul>
+<li>Local file system (POSIX, win32)</li>
+<li>SSH (libssh2)</li>
+</ul>
+<h1>Resources</h1>
+<ul>
+<li><a href="#basic-examples">Basic Examples</a></li>
+</ul>
+<h5>Installation and Development</h5>
+<ul>
+<li><a href="#build-instructions">Build form Source</a></li>
+<li><a href="#tips-for-linking">Tips for Linking</a></li>
+</ul>
+<h5>Features</h5>
+<ul>
+<li><a href="#paths-and-urls">Paths and URLs</a></li>
+<li><a href="#accessing-the-file-system">Accessing the file system</a></li>
+<li><a href="#getting-file-information">Getting file information</a></li>
+<li><a href="#file-operations">File operations</a></li>
+<li><a href="#reading-and-writing-to-files">Reading and writing to files</a></li>
+<li><a href="#advanced-functions-on-files">Advanced functions on files</a></li>
+<li><a href="#accessing-and-traversing-directories">Accessing and traversing directories</a></li>
+<li><a href="#file-trees-and-diffs">File trees and diffs</a></li>
+</ul>
+<h1>Build Instructions</h1>
+<p>Please follow our <a href="https://github.com/cginternals/cmake-init/wiki/Setup-Guide">CMake project setup guide</a>
+to setup and build <em>cppfs</em>.</p>
+<h1>Basic Examples</h1>
+<p>Opening files and checking for existence and type:</p>
+<pre><code class="hljs language-C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/fs.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/FileHandle.h&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cppfs;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">openFile</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp; filename)</span>
+</span>{
+    FileHandle fh = fs::<span class="hljs-built_in">open</span>(filename);
+
+         <span class="hljs-keyword">if</span> (fh.isFile())      { <span class="hljs-comment">/* File ... */</span> }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (fh.<span class="hljs-built_in">isDirectory</span>()) { <span class="hljs-comment">/* Directory ... */</span> }
+    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!fh.<span class="hljs-built_in">exists</span>())     { <span class="hljs-comment">/* Not there ... */</span> }
+}
+</code></pre>
+<p>Open a file for reading or writing:</p>
+<pre><code class="hljs language-C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/fs.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/FileHandle.h&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cppfs;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">openFile</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp; filename)</span>
+</span>{
+    FileHandle fh = fs::<span class="hljs-built_in">open</span>(filename);
+
+    <span class="hljs-keyword">if</span> (fh.isFile())
+    {
+        <span class="hljs-keyword">auto</span> in = fh.createInputStream();
+        <span class="hljs-comment">// ...</span>
+
+        <span class="hljs-keyword">auto</span> out = fh.createOutputStream();
+        <span class="hljs-comment">// ...</span>
+    }
+}
+</code></pre>
+<p>Listing directory entries:</p>
+<pre><code class="hljs language-C++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/fs.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cppfs/FileHandle.h&gt;</span></span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> cppfs;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">lstDir</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> &amp; path)</span>
+</span>{
+    FileHandle dir = fs::<span class="hljs-built_in">open</span>(path);
+
+    <span class="hljs-keyword">if</span> (dir.<span class="hljs-built_in">isDirectory</span>())
+    {
+        <span class="hljs-keyword">for</span> (FileIterator it = dir.<span class="hljs-built_in">begin</span>(); it != dir.<span class="hljs-built_in">end</span>(); ++it)
+        {
+            <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> path = *it;
+        }
+    }
+}
+</code></pre>
+<h1>Features</h1>
+<h3>Paths and URLs</h3>
+<p>The class <em>FilePath</em> is used to represent paths in the file system.
+It can be constructed from a string and converted back into a string.</p>
+<pre><code class="hljs language-C++"><span class="hljs-function">FilePath <span class="hljs-title">path</span><span class="hljs-params">(<span class="hljs-string">"data/readme.txt"</span>)</span></span>;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> pathOut = path.path();
+</code></pre>
+<p>Paths are stored in a unified format using only forward slashes ('/')
+as a separator. The unified format is compatible to all systems,
+but as a convenience for the user, it should be converted to the
+native format when displaying paths. To convert a path into the native
+format, call <em>toNative</em>.</p>
+<pre><code class="hljs language-C++"><span class="hljs-function">FilePath <span class="hljs-title">path</span><span class="hljs-params">(<span class="hljs-string">"data/readme.txt"</span>)</span></span>;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"File path: "</span> &lt;&lt; path.toNative() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+</code></pre>
+<p>A <em>FilePath</em> can be used to obtain syntactical information about a path.
+It does however work purely on the string, it cannot provide information
+about the actual file or directory the path points to. The following
+functions are useful to get information about a path:</p>
+<pre><code class="hljs language-C++">FilePath path = ...;
+
+<span class="hljs-comment">// Check if the path is empty ("")</span>
+<span class="hljs-keyword">bool</span> empty = path.isEmpty();
+
+<span class="hljs-comment">// Check if the path is an absolute path (e.g., "/test.txt", or "C:/test.txt")</span>
+<span class="hljs-keyword">bool</span> <span class="hljs-built_in">abs</span> = path.isAbsolute();
+
+<span class="hljs-comment">// Check if the path is a relative path (e.g., "data/test.txt")</span>
+<span class="hljs-keyword">bool</span> rel = path.isRelative();
+
+<span class="hljs-comment">// Check if path points to a file/directory (e.g., "/path/to/dir")</span>
+<span class="hljs-comment">// or its content (e.g., "/path/to/dir/").</span>
+<span class="hljs-keyword">bool</span> listContent = path.pointsToContent();
+</code></pre>
+<p><em>FilePath</em> offers functions to obtain the individual components of a file path,
+such as the filename, extension, or path to the containing directory.
+All of these functions ignore trailing slashes on the path, so they operate on
+the object the path points to, not it contents.</p>
+<pre><code class="hljs language-C++"><span class="hljs-function">FilePath <span class="hljs-title">path1</span><span class="hljs-params">(<span class="hljs-string">"C:/path/to/file.txt"</span>)</span></span>;
+<span class="hljs-function">FilePath <span class="hljs-title">path2</span><span class="hljs-params">(<span class="hljs-string">"C:/path/to/directory/"</span>)</span></span>;
+
+<span class="hljs-comment">// Get full path</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.fullPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/path/to/file.txt"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.fullPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/path/to/directory"</span>
+
+<span class="hljs-comment">// Get filename components</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.fileName()  &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "file.txt"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.fileName()  &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "directory"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.baseName()  &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "file"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.baseName()  &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "directory"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.extension() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// ".txt"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.extension() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// ""</span>
+
+<span class="hljs-comment">// Get path to containing directory</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.directoryPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/path/to/"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.directoryPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/path/to/"</span>
+
+<span class="hljs-comment">// Get drive letter</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.driveLetter() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:"</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.driveLetter() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:"</span>
+</code></pre>
+<p>Paths often need to be combined in order to determine the actual location
+of a file. To combine two paths, the function <em>resolve</em> can be used. The
+second path must be relative to combine the two paths, otherwise only the
+second path is returned. The combination of paths also takes place on
+a pure syntactical level, without checking if any of the paths really exist.</p>
+<pre><code class="hljs language-C++"><span class="hljs-function">FilePath <span class="hljs-title">src</span><span class="hljs-params">(<span class="hljs-string">"C:/projects"</span>)</span></span>;
+<span class="hljs-function">FilePath <span class="hljs-title">rel</span><span class="hljs-params">(<span class="hljs-string">"../documents/test.txt"</span>)</span></span>;
+<span class="hljs-function">FilePath <span class="hljs-title">abs</span><span class="hljs-params">(<span class="hljs-string">"C:/projects2/readme.txt"</span>)</span></span>;
+
+FilePath path1 = src.resolve(rel);
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path1.fullPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/projects/../documents/test.txt"</span>
+
+FilePath path2 = src.resolve(<span class="hljs-built_in">abs</span>);
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path2.fullPath() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/projects2/readme.txt"</span>
+</code></pre>
+<p>When combining relative paths, the resulting strings may contain a lot
+of &quot;..&quot; and &quot;.&quot; components. To resolve these on a syntactical level, the
+function <em>resolved</em> can be called. It will remove all occurences of &quot;.&quot;
+and &quot;..&quot;, as long as it is possible. Occurences of &quot;..&quot; at the beginning
+of a path will not be removed.</p>
+<pre><code class="hljs language-C++"><span class="hljs-function">FilePath <span class="hljs-title">path</span><span class="hljs-params">(<span class="hljs-string">"C:/projects/../documents/test.txt"</span>)</span></span>;
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; path.resolved() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>; <span class="hljs-comment">// "C:/documents/test.txt"</span>
+</code></pre>
+<h3>Accessing the file system</h3>
+<p>The main class for accessing files and directories in cppfs is <em>FileHandle</em>.
+It can be used to get information about file system objects, to manipulate
+them (e.g., copy, rename, or delete), as well as to read and write files.</p>
+<p>To obtain a file handle, the global function <em>fs::open</em> can be called. The
+type of file system that is accessed will be determined automatically by the
+given path or URL. File systems will be closed automatically when there are
+no longer any open file handles left.</p>
+<pre><code class="hljs language-C++"><span class="hljs-comment">// Open local file</span>
+FileHandle file1 = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+
+<span class="hljs-comment">// Open file on SSH server</span>
+LoginCredentials login;
+login.setValue(<span class="hljs-string">"username"</span>,   <span class="hljs-string">"username"</span>);
+login.setValue(<span class="hljs-string">"password"</span>,   <span class="hljs-string">"password"</span>);
+login.setValue(<span class="hljs-string">"publicKey"</span>,  <span class="hljs-string">"/path/to/key.pub"</span>); <span class="hljs-comment">// Default: "$home/.ssh/id_rsa.pub"</span>
+login.setValue(<span class="hljs-string">"privateKey"</span>, <span class="hljs-string">"/path/to/key"</span>);     <span class="hljs-comment">// Default: "$home/.ssh/id_rsa"</span>
+login.setValue(<span class="hljs-string">"port"</span>,       <span class="hljs-string">"999"</span>);              <span class="hljs-comment">// Default: 22</span>
+
+FileHandle file2 = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"ssh://example.com/home/user/readme.txt"</span>, &amp;login);
+</code></pre>
+<p>At the moment, it is not possible to register new file systems at the global
+level. To use a custom file system, create an instance of it and use the
+<em>AbstractFileSystem</em> interface to access it.</p>
+<pre><code class="hljs language-C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomFS</span> :</span> <span class="hljs-keyword">public</span> AbstractFileSystem
+{
+    ...
+};
+
+CustomFS fs;
+FileHandle file = fs.<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+</code></pre>
+<h3>Getting file information</h3>
+<p>A file handle can be used to access information about the file
+system object it points to. A file handle can also be copied,
+creating a second handle that points to the same file system
+object but does not inherit the state of the former handle.
+This operation only copies the path of the handle to the
+new object, so it is a cheap operation.</p>
+<pre><code class="hljs language-C++"><span class="hljs-comment">// Open file from local file system</span>
+FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+
+<span class="hljs-comment">// Get a second handle to the same file</span>
+FileHandle file2 = file;
+</code></pre>
+<p>Once a file handle has been obtained, it can be used to query basic information
+about the file system object is points to.</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+
+<span class="hljs-comment">// Check type</span>
+     <span class="hljs-keyword">if</span> (file.isFile())         <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"file"</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (file.<span class="hljs-built_in">isDirectory</span>())    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"directory"</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (file.isSymbolicLink()) <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"symlink"</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!file.<span class="hljs-built_in">exists</span>())        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">"file does not exist"</span> &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+
+<span class="hljs-comment">// Get filename and path</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> path = file.path();
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> filename = file.fileName();
+
+<span class="hljs-comment">// Get file information</span>
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>  <span class="hljs-built_in">size</span>  = file.<span class="hljs-built_in">size</span>();
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>  atime = file.accessTime();
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>  mtime = file.modificationTime();
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>  uid   = file.userId();
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span>  gid   = file.groupId();
+<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> perm  = file.permissions();
+</code></pre>
+<p>File permissions can also be modified:</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+
+file.setUserId(<span class="hljs-number">1000</span>);
+file.setGroupId(<span class="hljs-number">1000</span>);
+file.setPermissions(FilePermissions::UserRead | FilePermissions::GroupRead);
+</code></pre>
+<p>The file information is retrieved only when needed, i.e., on the first call
+of one of the above functions, and then cached in memory. When an operation on
+the handle modifies the file information, it is updated automatically.
+However, if a file is modified outside of the application or using a different
+handle to the same file, the file handle cannot know about the change. Therefore,
+it must be updated manually:</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data/readme.txt"</span>);
+
+<span class="hljs-comment">// If the file has been modified outside the application ...</span>
+file.updateFileInfo();
+</code></pre>
+<h3>File operations</h3>
+<p>Using the <em>FileHandle</em>, basic file operations can be performed.
+For binary operations, such as copy or move, the second file handle
+is considered to be the target of the operation. Depending on the
+operation, the target does not need to already exist. If the target
+points to a directory rather than a file, the target will be considered
+to be inside that directory (for example, a file will be copied into
+the given directory).</p>
+<pre><code class="hljs language-C++">FileHandle dir  = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme.txt"</span>);
+FileHandle dest;
+
+<span class="hljs-comment">// Create directory if it does not yet exist</span>
+<span class="hljs-keyword">if</span> (!dir.<span class="hljs-built_in">isDirectory</span>()) dir.createDirectory();
+
+<span class="hljs-comment">// Copy file into directory</span>
+file.copy(dir);
+
+<span class="hljs-comment">// Copy file to another file</span>
+dest = dir.<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme2.txt"</span>);
+file.copy(dest);
+
+<span class="hljs-comment">// Rename file</span>
+file.rename(<span class="hljs-string">"readme3.txt"</span>);
+
+<span class="hljs-comment">// Move file into directory</span>
+file.<span class="hljs-built_in">move</span>(dir);
+
+<span class="hljs-comment">// Create hard link</span>
+dest = dir.<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme4.txt"</span>);
+file.createLink(dest);
+
+<span class="hljs-comment">// Create symbolic link</span>
+dest = dir.<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme5.txt"</span>);
+file.createSymbolicLink(dest);
+
+<span class="hljs-comment">// Delete file</span>
+file.<span class="hljs-built_in">remove</span>();
+
+<span class="hljs-comment">// Delete directory (only if empty)</span>
+dir.removeDirectory();
+</code></pre>
+<h3>Reading and writing to files</h3>
+<p>To read and write files, standard C++ streams are applied. To open an input stream for a
+file, call <em>createInputStream</em>. To create an output stream, call <em>createOutputStream</em>.</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme.txt"</span>);
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">std</span>::istream&gt; in = file.createInputStream();
+<span class="hljs-comment">// ...</span>
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;<span class="hljs-built_in">std</span>::ostream&gt; out = file.createOutputStream();
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<p>For convience, there are also functions for reading and writing entire files using strings:</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme.txt"</span>);
+
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> content = file.readFile();
+
+file.writeFile(<span class="hljs-string">"no more text ..."</span>);
+</code></pre>
+<h3>Advanced functions on files</h3>
+<p>Advanced file operation include the generation of hashes and base64 encoding of files.
+They can be called directly on a file handle:</p>
+<pre><code class="hljs language-C++">FileHandle file = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme.txt"</span>);
+
+<span class="hljs-comment">// Get SHA1 hash of a file</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> hash = file.sha1();
+
+<span class="hljs-comment">// Get base64 encoding of a file</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> base64 = file.base64();
+
+<span class="hljs-comment">// Write file from base64 encoding</span>
+file.writeFileBase64(base64);
+</code></pre>
+<h3>Accessing and traversing directories</h3>
+<p>A <em>FileHandle</em> is used to access files as well as directories.
+To check if a file handle points to a directory, the function
+<em>isDirectory</em> can be used.</p>
+<pre><code class="hljs language-C++">FileHandle dir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+<span class="hljs-keyword">if</span> (dir.<span class="hljs-built_in">isDirectory</span>())
+{
+    <span class="hljs-comment">// ...</span>
+}
+</code></pre>
+<p>To list all files in a directory, call <em>listFiles</em>:</p>
+<pre><code class="hljs language-C++">FileHandle dir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; files = dir.listFiles();
+</code></pre>
+<p>For better control, the C++ iterator interface can be used:</p>
+<pre><code class="hljs language-C++">FileHandle dir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+<span class="hljs-keyword">for</span> (FileIterator it = dir.<span class="hljs-built_in">begin</span>(); it != dir.<span class="hljs-built_in">end</span>(); ++it)
+{
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span> path = *it;
+}
+</code></pre>
+<p>For automatically traversing a directory tree, the <em>traverse</em>
+function can be called. It can be passed  either</p>
+<ul>
+<li>a callback function for each file entry</li>
+<li>a callback function for each file and one for each directory</li>
+<li>a visitor object</li>
+</ul>
+<pre><code class="hljs language-C++">FileHandle dir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+
+<span class="hljs-comment">// Traverse all file entries</span>
+dir.traverse([](FileHandle &amp; fh) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; fh.path() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// continue</span>
+});
+
+<span class="hljs-comment">// Traverse all files and directories</span>
+dir.traverse([](FileHandle &amp; fh) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; fh.path() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// continue</span>
+}, [](FileHandle &amp; dir) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span> &lt;&lt; dir.path() &lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">// continue</span>
+});
+</code></pre>
+<p>When a handle to a directory has been obtained, it can
+be used to open file handles relative to that directory:</p>
+<pre><code class="hljs language-C++">FileHandle dir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data"</span>);
+
+<span class="hljs-comment">// Open parent directory</span>
+FileHandle parentDir = dir.parentDirectory();
+
+<span class="hljs-comment">// Open file in directory</span>
+FileHandle file1 = dir.<span class="hljs-built_in">open</span>(<span class="hljs-string">"readme.txt"</span>);
+
+<span class="hljs-comment">// Open file relative to directory</span>
+FileHandle file2 = dir.<span class="hljs-built_in">open</span>(<span class="hljs-string">"../readme.txt"</span>);
+</code></pre>
+<h3>File trees and diffs</h3>
+<p>For higher level operations on directory trees, the classes <em>Tree</em>, <em>Diff</em>,
+and <em>Change</em> can be used. A <em>Tree</em> contains the information about all files
+and directories in a tree data structure. It can be obtained from a
+directory handle by calling <em>readTree</em>.</p>
+<pre><code class="hljs language-C++"><span class="hljs-comment">// Read directory tree from current directory</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;Tree&gt; tree1 = dir.readTree();
+
+<span class="hljs-comment">// Read directory tree from current directory, giving it a virtual root</span>
+<span class="hljs-built_in">std</span>::<span class="hljs-built_in">unique_ptr</span>&lt;Tree&gt; tree2 = dir.readTree(<span class="hljs-string">"/root"</span>);
+</code></pre>
+<p>Given two directory trees, the differences between them can be calculated,
+resulting in a diff object. A diff contains a number of file system operations
+that need to be performed in order to transform from the source tree to
+the destination tree. This can be utilized to implement basic file syncing:</p>
+<pre><code class="hljs language-C++"><span class="hljs-comment">// Open directories</span>
+FileHandle srcDir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data1"</span>);
+FileHandle dstDir = fs::<span class="hljs-built_in">open</span>(<span class="hljs-string">"data2"</span>);
+
+<span class="hljs-comment">// Read both directory trees</span>
+<span class="hljs-keyword">auto</span> srcTree = srcDir.readTree();
+<span class="hljs-keyword">auto</span> dstTree = dstDir.readTree();
+
+<span class="hljs-comment">// Calculate differences</span>
+<span class="hljs-keyword">auto</span> diff = dstTree-&gt;createDiff(*srcTree);
+
+<span class="hljs-comment">// Sync directories</span>
+<span class="hljs-keyword">for</span> (Change change : diff-&gt;changes())
+{
+    <span class="hljs-keyword">if</span> (change.operation() == Change::CopyFile) {
+        FileHandle src = srcDir.<span class="hljs-built_in">open</span>(change.path());
+        FileHandle dst = dstDir.<span class="hljs-built_in">open</span>(change.path());
+        src.copy(dst);
+    }
+
+    <span class="hljs-keyword">if</span> (change.operation() == Change::CopyDir) {
+        FileHandle src = srcDir.<span class="hljs-built_in">open</span>(change.path());
+        FileHandle dst = dstDir.<span class="hljs-built_in">open</span>(change.path());
+        src.copyDirectoryRec(dst);
+    }
+
+    <span class="hljs-keyword">if</span> (change.operation() == Change::RemoveFile) {
+        FileHandle dst = dstDir.<span class="hljs-built_in">open</span>(change.path());
+        dst.<span class="hljs-built_in">remove</span>();
+    }
+
+    <span class="hljs-keyword">if</span> (change.operation() == Change::RemoveDir) {
+        FileHandle dst = dstDir.<span class="hljs-built_in">open</span>(change.path());
+        dst.removeDirectoryRec();
+    }
+}
+</code></pre>
+</div></div></section><section class="container"><div class="row"><div class="col"><h1>Professional Support</h1>
+<p>CG Internals offers computer graphics R&amp;D as well as reliable technology and innovative concepts to support your computer graphics visions.
+We provide trainings and can help you integrate and customize <em>cpplocate</em> in your next project.</p>
+<p>Visit <a href="https://www.cginternals.com">Professional Support and Services</a> for more details.</p>
+</div></div></section><footer class="text-center" id="footer">Copyright &copy; 2017&thinsp;&ndash;&thinsp;2018  <a href="https://cginternals.com">CG Internals</a><br><small>This type of website is critically endangered: static, self-hosted, single-origin, as well as tracking and cookie-free. <a href="https://cginternals.com/en/privacy-policy.html">Privacy Policy</a></small></footer></body></html>
